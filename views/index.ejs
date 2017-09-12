@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .gg {
+            height: 595px;
+            /*            background-color: pink;*/
+            /*            overflow: auto;*/
+        }
+
+        .width {
+            width: 90px;
+        }
+
+        .li1 {
+            width: 30px;
+            height: 30px;
+            /*background-color:pink;*/
+            margin-left: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!--
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+-->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <%= title %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <%=panelTitle%>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <form action="/submitData" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"><h6 class="news-title"><%=newsTitle%></h6></label>
+                                <input type="text" class="form-control" id="inputNewsTitle" placeholder="Email">
+                                <h6 class="news-content">
+                                    <%=newsContent%>
+                                </h6>
+                            </div>
+                            <textarea class="form-control" id="inputNewsContent" rows="3"></textarea>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"><h6 class="news-img-url"><%=newsImgUrl%></h6></label>
+                                <input type="text" class="form-control" id="inputNewsImgUrl" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"><h6 class="news-img-url"><%=newsOrigin%></h6></label>
+                                <input type="text" class="form-control" id="inputNewsOrigin" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"><h6 class="news-img-url"><%=newsDate%></h6></label>
+                                <input type="text" class="form-control" id="inputNewsDate" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"><h6 class="news-img-url"><%=newsKeywords%></h6></label>
+                                <input type="text" class="form-control" id="inputNewsKeyword" placeholder="Email">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id='btn'>提交</button>
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <%=newsList%>
+                        </h3>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="gg">
+
+                        <table class="table">
+                            <tr>
+                                <td class="width">
+                                    <%=newsId%>
+                                </td>
+                                <td>
+                                    <%=newsDate%>
+                                </td>
+                                <td>
+                                    <%=newsTitle%>
+                                </td>
+                                <td>
+                                    <%=newsTime%>
+                                </td>
+                            </tr>
+                            <%for(var i=0;i<newsResults.length;i++){%>
+                                <tr class='insertData'>
+                                    <td class="data1">
+                                        <%=newsResults[i].news_id%>
+                                    </td>
+                                    <td class="data2">
+                                        <%=newsResults[i].news_date%>
+                                    </td>
+                                    <td class="data3">
+                                        <%=newsResults[i].news_title%>
+                                    </td>
+                                    <td><button type='submit' class='btn btn-danger btn-delete'>删除</button></td>
+                                </tr>
+                                <%}%>
+
+                        </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" id='pagination'>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+<!--<script src='/jquery/dist/jquery.min.js'></script>-->
+<script type='text/javascript' src="./javascripts/require.js" data-main='./javascripts/main.js'></script>
+<script>
+    //    var $insertData = $('.insertData');
+    //    //    console.log($insertData);
+    //    $insertData.on('click', function() {
+    //        //        console.log($(this));
+    //        var selectedIdTr = $(this)[0];
+    //        var $selectedId = $(selectedIdTr).children('td').eq(0).html()
+    //        console.log($selectedId);
+    //
+    //        $selectedIdNoSpace = $selectedId.trim();
+    //        $.ajax('/newsLaunching', {
+    //            type: 'post',
+    //            data: {
+    //                selectedId: $selectedIdNoSpace
+    //            },
+    //            success: function(response) {
+    //
+    //                $('#inputNewsTitle').val(response.news_title);
+    //                $('#inputNewsContent').val(response.news_content);
+    //                $('#inputNewsImgUrl').val(response.news_img_url);
+    //                $('#inputNewsDate').val(response.news_date);
+    //                $('#inputNewsKeyword').val(response.news_keyword);
+    //                $('#inputNewsOrigin').val(response.news_origin);
+    //            }
+    //
+    //        });
+    //
+    //        $('form').on('submit', function(event) {
+    //            //            var title = $('#inputNewsTitle').val();
+    //            //            var content = $('#inputNewsContent').val();
+    //            //            console.log(title);
+    //            //            if (title === '' && content === ' ') {
+    //            //                $('#inputNewsTitle').addClass('border');
+    //            //                $('#inputNewsContent').addClass('border');
+    //            //            }
+    //
+    //
+    //            event.preventDefault();
+    //
+    //            var $inputNewsTitle = $('#inputNewsTitle').val();
+    //            var flag = window.confirm('Do you wanna update the database or just add data to it? If you wanna update it, click OK. If you would like to add data to it, click CANCAL');
+    //            console.log(flag);
+    //            console.log(typeof flag);
+    //
+    //            $.ajax('/submitData', {
+    //                type: 'post',
+    //                data: {
+    //                    inputNewsTitle: $inputNewsTitle,
+    //                    flag: flag,
+    //                    'news_title': $('#inputNewsTitle').val(),
+    //                    'news_content': $('#inputNewsContent').val(),
+    //                    'news_img_url': $('#inputNewsImgUrl').val(),
+    //                    'news_origin': $('#inputNewsOrigin').val(),
+    //                    'news_date': $('#inputNewsDate').val(),
+    //                    'news_keyword': $('#inputNewsKeyword').val(),
+    //                    selectedId: $selectedIdNoSpace
+    //                },
+    //                success: function(response) {
+    //                    console.log(response);
+    //                    console.log(response[response.length - 1]);
+    //                    console.log(response[response.length - 1].news_title);
+    //                    var newsTitle = response[response.length - 1].news_title;
+    //                    console.log(newsTitle);
+    //                    var length = response.length;
+    //                    if (flag) {
+    //                        for (var i = 0; i < response.length; i++) {
+    //                            $('.data3').eq(i).text(response[i].news_title);
+    //                            $('.data2').eq(i).text(response[i].news_date);
+    //                            console.log('nnnn');
+    //                        }
+    //                    } else {
+    //
+    //                        $('.insertData').parent().append('<tr class = "insertData" ></tr>');
+    //                        $('.insertData').eq(length - 1).append('<td class = "data1" >zxzx</td>');
+    //                        $('.insertData').eq(length - 1).append('<td class = "data2" >xzz</td>');
+    //                        $('.insertData').eq(length - 1).append('<td class = "data3" >zxz</td>');
+    //                        $('.insertData').eq(length - 1).append('<td><button type="submit" class="btn btn-danger btn-delete">删除</button></td>');
+    //
+    //                        $('.data1').eq(length - 1).text(response[response.length - 1].news_id);
+    //                        $('.data2').eq(length - 1).text(response[response.length - 1].news_date);
+    //                        $('.data3').eq(length - 1).text(response[response.length - 1].news_title);
+    //                    }
+    //
+    //                }
+    //
+    //            });
+    //
+    //        });
+    //
+    //
+    //    });
+    //
+    //    $('.btn-delete').on('click', function(event) {
+    //        event.stopPropagation();
+    //        //        console.log($(this));
+    //        var idToBeDeleted = $(this).parent().prev().prev().prev().text().trim();
+    //        //        console.log(idToBeDeleted);
+    //        var $this = $(this);
+    //        var flag = window.confirm("Do you really wanna delete this piece of data? If it's a yes, click OK. Otherwise, click CANCAL");
+    //        if (flag) {
+    //            $.ajax('/newsDeleting', {
+    //                type: 'post',
+    //                data: {
+    //                    idToBeDeleted: idToBeDeleted
+    //                },
+    //                success: function(response) {
+    //                    console.log($this.parent().parent());
+    //                    $this.parent().parent().remove();
+    //
+    //                }
+    //
+    //            });
+    //        }
+    //
+    //    });
+
+</script>
+
+</html>

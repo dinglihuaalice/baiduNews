@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>百度新闻客户端</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="swiper/dist/css/swiper.min.css">
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        html {
+            50px;
+        }
+
+        header {
+            width: 100%;
+            height: 0.48rem;
+            background-color: #3e98f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 0.01rem solid white;
+        }
+
+        img {
+            display: block;
+        }
+
+        nav {
+            width: 100%;
+            height: 0.38rem;
+            background-color: #3e98f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 14px;
+            color: white;
+            /*            overflow: hidden;*/
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 2.25rem;
+            background-color: pink;
+        }
+
+        article {
+            /*            background-color: pink;*/
+            height: 50rem;
+        }
+
+        #ul-id {
+            /*            height: 5rem;*/
+            font-size: 14px;
+            /*            background-color: teal;*/
+        }
+
+        #ul-id>.list {
+            height: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid grey;
+        }
+
+        #ul-id>.list>.left {
+            width: 1.3rem;
+            height: 1.5rem;
+            /*            background-color: hotpink;*/
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ul-id>.list>.right {
+            width: 2.2rem;
+            height: 1.5rem;
+            /*            background-color: green;*/
+            display: flex;
+            justify-content: center;
+            /*            align-items: center;*/
+            align-content: center;
+            flex-wrap: wrap;
+        }
+
+        #ul-id>.list>.left>img {
+            width: 1.1rem;
+            height: 0.9rem;
+            display: block;
+            float: left;
+        }
+
+        .h3Style {
+            width: 2rem;
+            height: 0.5rem;
+            /*            background-color: purple;*/
+            /*            float: right;*/
+        }
+
+        .pStyle {
+            width: 2rem;
+            height: 0.8rem;
+            /*            background-color: red;*/
+            /*            float: right;*/
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div><img src="images/header1.jpg" alt=""></div>
+        <div><img src="images/header2.jpg" alt=""></div>
+        <div><img src="images/header3.jpg" alt=""></div>
+        <div><img src="images/header4.jpg" alt=""></div>
+        <div><img src="images/header5.jpg" alt=""></div>
+    </header>
+    <nav>
+        <div id='recommendation'>推荐</div>
+        <div id='variety'>百家</div>
+        <div id='local'>本地</div>
+        <div id='recreation'>娱乐</div>
+        <div id='society'>社会</div>
+    </nav>
+    <div class='swiper-container'>
+
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <img src="images/timg1.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/timg2.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/timg3.jpg" alt="">
+            </div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+    </div>
+
+    <article>
+        <ul id='ul-id'>
+
+        </ul>
+    </article>
+
+    <script src="javascripts/zepto.min.js"></script>
+    <script src="javascripts/swiper.min.js"></script>
+    <script src="javascripts/touch.js"></script>
+    <script src="javascripts/fx_methods.js"></script>
+    <script src="javascripts/fx.js"></script>
+
+    <script>
+        (function() {
+            getSize();
+
+            function getSize() {
+                document.documentElement.style.fontSize = document.documentElement.clientWidth / 3.6 + 'px';
+            }
+            window.addEventListener('resize', getSize);
+
+        })();
+
+        $(document).ready(function() {
+            //initialize swiper when document ready
+            var mySwiper = new Swiper('.swiper-container', {
+                // Optional parameters
+                loop: true,
+                autoplay: 500,
+                pagination: '.swiper-pagination',
+                //                autoplayDisableOnInteraction: false
+                autoplayDisableOnInteraction: false
+            });
+
+            //            console.log($('#recommendation'));
+            $('#recommendation').on('click', function() {
+                $('.list').remove();
+                $.ajax({
+                    url: '/users/news',
+                    type: 'get',
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.length);
+
+                        response.forEach(function(item, index) {
+                            console.log(item);
+                            $('#ul-id').append($('<li></li>').addClass('list'));
+                            $('<div></div>').addClass('left').appendTo($('.list')[index]);
+                            $('<div></div>').addClass('right').appendTo($('.list')[index]);
+
+                            $('<h3></h3>').addClass('h3Style').text(item.news_title).appendTo($('.right')[index]);
+                            $('<p></p>').addClass('pStyle').text(item.news_content).appendTo($('.right')[index]);
+                            $('<img />').attr('src', item.news_img_url).appendTo($('.left')[index]);
+                        });
+
+                    }
+                })
+            });
+
+            $('#variety').on('click', function() {
+                $('.list').remove();
+                $.ajax({
+                    url: '/users/news1',
+                    type: 'get',
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.length);
+
+                        response.forEach(function(item, index) {
+                            console.log(item);
+                            $('#ul-id').append($('<li></li>').addClass('list'));
+                            $('<div></div>').addClass('left').appendTo($('.list')[index]);
+                            $('<div></div>').addClass('right').appendTo($('.list')[index]);
+
+                            $('<h3></h3>').addClass('h3Style').text(item.news_title).appendTo($('.right')[index]);
+                            $('<p></p>').addClass('pStyle').text(item.news_content).appendTo($('.right')[index]);
+                            $('<img />').attr('src', item.news_img_url).appendTo($('.left')[index]);
+                        });
+
+                    }
+                })
+            });
+
+
+            $('#local').on('click', function() {
+                $('.list').remove();
+                $.ajax({
+                    url: '/users/news2',
+                    type: 'get',
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.length);
+
+                        response.forEach(function(item, index) {
+                            console.log(item);
+                            $('#ul-id').append($('<li></li>').addClass('list'));
+                            $('<div></div>').addClass('left').appendTo($('.list')[index]);
+                            $('<div></div>').addClass('right').appendTo($('.list')[index]);
+
+                            $('<h3></h3>').addClass('h3Style').text(item.news_title).appendTo($('.right')[index]);
+                            $('<p></p>').addClass('pStyle').text(item.news_content).appendTo($('.right')[index]);
+                            $('<img />').attr('src', item.news_img_url).appendTo($('.left')[index]);
+                        });
+
+                    }
+                })
+            });
+
+            $('#recreation').on('click', function() {
+                $('.list').remove();
+                $.ajax({
+                    url: '/users/news3',
+                    type: 'get',
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.length);
+
+                        response.forEach(function(item, index) {
+                            console.log(item);
+                            $('#ul-id').append($('<li></li>').addClass('list'));
+                            $('<div></div>').addClass('left').appendTo($('.list')[index]);
+                            $('<div></div>').addClass('right').appendTo($('.list')[index]);
+
+                            $('<h3></h3>').addClass('h3Style').text(item.news_title).appendTo($('.right')[index]);
+                            $('<p></p>').addClass('pStyle').text(item.news_content).appendTo($('.right')[index]);
+                            $('<img />').attr('src', item.news_img_url).appendTo($('.left')[index]);
+                        });
+
+                    }
+                })
+            });
+
+            $('#society').on('click', function() {
+                $('.list').remove();
+                $.ajax({
+                    url: '/users/news4',
+                    type: 'get',
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.length);
+
+                        response.forEach(function(item, index) {
+                            console.log(item);
+                            $('#ul-id').append($('<li></li>').addClass('list'));
+                            $('<div></div>').addClass('left').appendTo($('.list')[index]);
+                            $('<div></div>').addClass('right').appendTo($('.list')[index]);
+
+                            $('<h3></h3>').addClass('h3Style').text(item.news_title).appendTo($('.right')[index]);
+                            $('<p></p>').addClass('pStyle').text(item.news_content).appendTo($('.right')[index]);
+                            $('<img />').attr('src', item.news_img_url).appendTo($('.left')[index]);
+                        });
+
+                    }
+                })
+            });
+        });
+
+    </script>
+</body>
+
+</html>
