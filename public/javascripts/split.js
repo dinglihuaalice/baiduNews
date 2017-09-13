@@ -25,16 +25,41 @@ define(['jquery'], function ($) {
         }
         bind(obj) {
             $(obj.container).on('click', 'li', function () {
+
                 console.log($(this).text());
                 $.ajax('/splitBind', {
                     type: 'post',
                     data: {
                         pageNum: $(this).text()
                     },
-                    success: function() {
+                    success: function (response) {
+
+                        response.forEach(function (item, index) {
+
+
+                            $('.data1').eq(index).text(response[index].news_id);
+                            $('.data2').eq(index).text(response[index].news_date);
+                            $('.data3').eq(index).text(response[index].news_title);
+
+                            console.log(response[index]);
+
+                        });
+
+
+                        console.log(response);
+
+
+
+
 
                     }
                 });
+
+
+
+
+
+
 
             });
         }

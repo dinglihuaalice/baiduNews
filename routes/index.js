@@ -19,14 +19,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (request, response, next) {
-    var sql = 'SELECT * from `news`';
+    var sql = 'SELECT * from `news` limit 0,4';
 
 
-
-
-    //    console.log(sql);
+    console.log(sql);
     connection.query(sql, function (error, results, fields) {
-        //        console.log(results);
+
+        console.log(results);
         response.render('index', {
 
             title: '百度新闻后台管理系统',
@@ -39,8 +38,8 @@ router.get('/', function (request, response, next) {
             newsKeywords: '新闻标签',
             newsList: '新闻列表',
             newsId: '新闻编号',
-            newsTime: '操作'
-//            newsResults: results
+            newsTime: '操作',
+            newsResults: results
 
         });
 
@@ -63,17 +62,15 @@ router.get('/split', function (request, response, next) {
 });
 
 router.post('/splitBind', function (request, response, next) {
-    var dataStart = (request.body.pageNum - 1) * 4 + 1;
-    var dataEnd = request.body.pageNum * 4;
+//    console.log(request.body.pageNum);
+    var dataStart = (request.body.pageNum-1) * 4;
+    var dataEnd = 4;
 
     console.log(request.body.pageNum)
     var sqlCount = `SELECT * FROM news limit ${dataStart},${dataEnd}`;
     connection.query(sqlCount, function (error, results, fields) {
-        console.log(results);
-        response.render('index', {
-            newsResults: results
-        });
-
+//        console.log(results);
+        response.json(results);
 
     });
 });

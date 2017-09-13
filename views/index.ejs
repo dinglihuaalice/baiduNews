@@ -115,36 +115,21 @@
                                     <%=newsTime%>
                                 </td>
                             </tr>
-                            <%for(var i=0;i<newsResults.length;i++){%>
-                                <tr class='insertData'>
-                                    <td class="data1">
-                                        <%=newsResults[i].news_id%>
-                                    </td>
-                                    <td class="data2">
-                                        <%=newsResults[i].news_date%>
-                                    </td>
-                                    <td class="data3">
-                                        <%=newsResults[i].news_title%>
-                                    </td>
-                                    <td><button type='submit' class='btn btn-danger btn-delete'>删除</button></td>
-                                </tr>
-                                <%}%>
 
+                            <% include subNews.ejs %>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+
+                                    </ul>
+                                </nav>
                         </table>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination" id='pagination'>
-
-                            </ul>
-                        </nav>
                     </div>
                 </div>
-
-
 
             </div>
         </div>
 
-    </div>
+
     </div>
 </body>
 <!--<script src='/jquery/dist/jquery.min.js'></script>-->

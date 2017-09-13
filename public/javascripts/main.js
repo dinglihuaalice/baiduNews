@@ -140,7 +140,7 @@ require(['jquery', 'split'], function ($, Split) {
                 var spl = new Split({
                     maxPage: maxData,
                     dataPerPage: 4,
-                    container: '#pagination'
+                    container: '.pagination'
                 });
 
 
